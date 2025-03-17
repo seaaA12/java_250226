@@ -1,7 +1,7 @@
 package studentManager;
 
 import java.util.Arrays;
-S
+
 public class Student {
 
 	//학번, 이름, 나이, 전화번호, 주소, 수강과목(Subject class[])

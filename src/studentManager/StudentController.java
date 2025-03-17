@@ -2,10 +2,6 @@ package studentManager;
 
 import java.util.Scanner;
 
-import javax.security.auth.Subject;
-
-
-
 //학교입장
 public class StudentController implements Program{
 
