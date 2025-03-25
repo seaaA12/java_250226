@@ -14,7 +14,7 @@ interface ShellGameInterface {
 	public void menuPrint();
 	
 	// shuffle() - 컵 섞기 
-	public int shuffle();
+	public int[] shuffle();
 	
 	// compareResult() 
 		// 사용자의 선택 번호를 입력 받아 야바위의 결과를 출력하고

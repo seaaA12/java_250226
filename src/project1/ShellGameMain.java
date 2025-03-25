@@ -1,21 +1,28 @@
 package project1;
 
 public class ShellGameMain {
+	
 	public static void main(String[] args) {
 		// 멤버 변수 초기화
 		ShellGameController sgc = new ShellGameController();
 		
-		sgc.menuPrint();
-		int menu =0;
-		
+		/* 게임을 시작하시겠습니까 Y 게임시작
+		 * 셔플 랜덤 수 출력
+		 * 컵 위치 입력
+		 * 결과 출력
+		 * 현재 스코어 출력
+		 * 반복
+		 */
 		do {
-			System.out.println("게임 시작 컵 하나를 선택하세요");
-			switch(menu) {
-			case 1: System.out.println("게임시작");break;
-			default: 
-				System.out.println("error");
-			}
+			
+			sgc.menuPrint();
+			sgc.compareResult(sgc.shuffle());
+
+			
+		}while(sgc.resume() != 'N');		
+
+		//배팅 종료 후 금액 출력
 		
-		}while(sgc.resume() != 'N');
+		
 	}
 }

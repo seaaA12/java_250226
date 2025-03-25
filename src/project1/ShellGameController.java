@@ -1,14 +1,24 @@
+// 야바위 게임 
+/*
+ * # 기능 
+ *  → 게임시작, 컵 돌리기, 플레이어 컵 선택, 결과 출력, 점수, 하트 상태 출력
+ *		반복 (Main 에서 do-while문으로 처리), 승 패 결과 출력
+ * 
+ * */
 package project1;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
-public class ShellGameController implements ShellGameInterface{
+public class ShellGameController{
 	// 멤버 변수 초기화
-		// 플레이어 생성, 사용자
-	ShellGamePlayer p1 = new ShellGamePlayer();
+	// 플레이어 생성, 사용자
+	ShellGamePlayer p1 = new ShellGamePlayer(0,10000);
 	
 	
-		// Scanner 설정
+	// Scanner 설정
 	Scanner sc = new Scanner(System.in);
 	
 	// 기본 생성자 
@@ -16,61 +26,94 @@ public class ShellGameController implements ShellGameInterface{
 	
 	
 	//메서드
-		// menuPrint() - 메뉴 출력 
-		// 1) 게임 시작  2) 종료 (나가기)
-	@Override
+	// menuPrint() - 메뉴 출력
 	public void menuPrint() {
-		
+		System.out.println("야바위꾼이 컵을 섞는중입니다");
+//		System.out.println("\r\n"
+//				+ "⡑⡑⢕⢱⢑⢕⢕⢕⢍⢎⢇⢇⢏⢽⡹⡱⡱⡑⠕⢅⠕⡅⢅⠑⠌⢌⠱⠱⡑⡕⢕⢍⢎⢕⢽⠸⡸⡱⡱⡑⢕⢑⢕⠱⡱⡱⡍⡯⣏⠪⡨⡨⠨⡪⡪⡣⣫⢯⡣⡑\r\n"
+//				+ "⢱⡘⡜⣔⢕⣌⢆⣇⣇⢇⣇⢇⢇⢵⡹⡵⡱⡑⡕⡕⢕⢌⠢⡑⡑⡐⢌⠢⡑⢌⠊⠆⢕⢕⢇⠣⡣⡣⡪⡪⡪⢢⢣⠱⡘⡜⣞⡯⡇⢕⠰⡱⡑⡵⣹⢸⣪⡳⡽⡽\r\n"
+//				+ "⣿⢽⡿⣽⣽⣞⣿⣺⣾⣻⣾⣳⡕⡵⣝⣞⠵⡕⡜⡜⡌⡆⡣⡪⡨⡊⡢⡑⢌⠢⡡⡑⡑⢔⠅⢕⢑⢌⢢⠱⡱⡑⡆⡣⡣⣝⣗⢿⡑⡅⢕⢌⠪⡪⣪⢺⣜⢞⢘⠜\r\n"
+//				+ "⣿⢯⣿⡽⣾⣗⣿⣺⢷⡿⣾⢯⡯⣿⢹⢘⢜⢜⡵⣝⢮⡺⡸⡨⡪⡘⡔⡅⡣⡱⡨⡪⡪⡢⡑⡑⢔⢑⢔⠱⡨⡊⢎⠪⡪⡺⡺⣻⢨⢊⢆⢕⢕⣽⡮⣗⣗⢇⠢⠡\r\n"
+//				+ "⣿⣯⣷⣿⣻⡾⡷⣟⣯⣿⣻⣽⢿⣽⣳⡳⣕⢽⢝⢮⡳⣹⡪⣇⢧⡣⣣⢪⢪⢪⢪⢪⢪⢪⢪⡘⢔⢑⢔⢑⢌⠪⡂⡣⡊⡢⡑⢌⠢⢅⠕⢝⢝⢼⡽⣗⢿⢐⠅⢕\r\n"
+//				+ "⣷⣿⢾⣯⣷⡿⣟⣯⣿⢾⣯⣿⣻⡾⣯⣯⣞⣵⢿⡽⣟⡷⣝⡮⣳⢝⠮⡳⢝⢮⣗⣽⣪⢯⣳⢸⢐⢕⢐⠕⢔⢑⢌⢂⢊⠢⡊⡢⡑⡑⢕⢅⢣⢫⡯⣯⡏⡢⡑⢅\r\n"
+//				+ "⣿⣽⣟⣷⢿⣽⢿⣯⢿⣻⡾⣷⣟⡿⣽⣞⢷⣻⢽⣫⢯⠻⠪⠩⡨⢪⢘⢌⢆⢣⢣⡳⡽⣵⡫⣗⢕⢕⢅⠣⡑⢕⢔⢅⠥⡑⡘⡔⡌⢌⢢⠱⡨⢪⢫⢗⠇⢕⢌⠢\r\n"
+//				+ "⡇⡣⡣⡣⡣⡱⡑⡌⢎⢆⣣⣣⢪⡪⡢⡪⡊⠆⢕⠐⠅⠅⢕⠱⡨⡪⡪⡢⡣⡣⡣⡫⡯⣺⡺⣝⣵⣳⡱⡑⢌⠢⢱⢱⢱⠨⡢⢪⢪⢢⢱⢑⠱⡡⡣⡱⢡⢑⠔⠅\r\n"
+//				+ "⡣⣕⢜⡬⣪⣪⣪⠮⡚⡚⡪⡊⡪⡈⡢⡂⡪⠨⡢⢡⢑⢅⠣⡣⡣⣪⡪⡪⡪⣪⢪⡺⣪⢗⣽⣳⣻⡺⡝⡎⢆⠅⢕⢝⢮⢪⢊⠆⢕⢵⡡⠣⡑⠕⡜⡸⡐⡅⡣⡑\r\n"
+//				+ "⢻⡫⡏⡏⡓⠅⢕⢑⢐⢌⢎⢎⠢⡑⡢⣕⢜⡌⡎⢆⢣⠪⡪⡪⡺⡪⣪⢳⡹⣜⢵⢝⡮⣫⢾⣺⡪⡮⣪⢪⢪⢊⢎⢪⠪⡪⡢⡡⢡⢱⡹⡌⡌⢌⢪⠢⡱⡨⢢⠱\r\n"
+//				+ "⠣⡪⡪⡨⡨⡊⡂⡢⡢⣱⠑⠄⢕⢜⢜⣮⢗⠣⡑⡕⡕⣕⢵⠝⡊⢊⠈⡁⠡⢈⠈⠑⠩⢪⢣⢣⡫⢯⡺⣕⢧⢑⢌⢪⢪⢪⢎⢌⢢⠱⡱⡕⡜⢔⢕⢕⢜⢜⢔⠱\r\n"
+//				+ "⡣⡱⡨⡪⡪⢢⠪⡢⡣⡣⡡⡣⡱⣱⡫⡇⡣⡣⡣⣣⡳⣕⡇⠅⢐⠀⡂⢐⠈⠄⠨⠀⢅⠢⡣⡣⡹⣪⢺⢕⡗⡕⡌⢆⠣⡑⢹⢸⢐⢕⢕⢽⢸⢘⢔⢕⢅⢇⢇⢕\r\n"
+//				+ "⢎⠪⡢⡣⡣⡣⡣⡳⡱⡑⡜⣜⢼⢺⢸⢰⢱⡱⣝⢮⣫⢾⢕⠅⡂⢂⢐⢀⠂⠅⠌⠌⠢⡑⢌⠪⡪⡪⡪⡳⣹⢪⢪⠢⡑⠄⠅⡇⡇⡕⢕⠅⡇⡇⡕⡱⡱⡡⡱⡡\r\n"
+//				+ "⡣⡣⡣⡫⡪⡪⡪⡝⡌⢎⢎⡎⡕⡕⣕⢕⢧⣳⢵⣳⢵⢯⢇⢂⠂⡂⡐⠠⠨⠠⠡⠡⡑⠌⡆⡕⡌⡎⣎⢮⡪⡧⣇⢇⢎⠌⢌⢪⢪⢪⢘⢔⠹⡜⣌⢆⠇⠕⠅⠅\r\n"
+//				+ "⡱⡘⡌⡎⡪⡪⣪⢪⢸⢸⡸⡜⡜⡜⡔⡕⡝⣾⣻⣺⢽⢕⢇⢂⠂⡂⠄⠅⠌⡂⠅⠅⠌⢌⢪⢪⢪⢪⢪⠮⡮⣳⡳⡱⠡⡑⡐⡘⡜⡜⡜⠄⡱⡹⡘⠔⠅⠅⢅⠑\r\n"
+//				+ "⡇⡣⡣⡪⢐⢈⠢⠣⢑⠕⡕⢕⠌⢌⠪⡘⢌⢗⣯⡺⡕⣝⢔⢐⢐⠠⠡⠨⢐⠠⠡⠡⠡⠡⡱⡱⡱⡱⡱⣙⢮⢺⠸⡈⡂⡂⡂⡂⠅⡑⠨⡐⡐⠌⢌⠪⡨⠨⡂⠅\r\n"
+//				+ "⢣⢱⢸⢸⢐⢐⠨⠨⠠⢁⠪⢐⠑⢄⠑⢌⢂⢇⢣⢇⢇⢇⠕⡐⢐⠨⠠⢁⠂⠌⠌⠌⠌⠌⢜⢌⢎⢎⢪⠢⡣⡃⡣⡂⡂⡂⡂⡂⠅⡂⠅⡂⠢⡑⡐⡑⢌⠢⠨⠢\r\n"
+//				+ "⡇⡇⡇⡇⠆⡂⠌⡂⠅⡂⠌⡐⠨⠠⡑⡐⡐⢄⢇⢣⠣⡑⡈⡂⠅⠌⠌⡐⠨⠨⠨⠨⠨⠨⠢⢸⠨⡪⡢⡣⡱⣑⢐⢐⢐⢐⢐⠠⢑⠠⢑⢈⢂⠢⠨⡊⡆⢅⠕⠅\r\n"
+//				+ "⡇⡇⡇⡇⢅⠂⠅⡂⠅⡂⠅⠌⠌⢂⢂⠔⡜⢌⢎⢆⠇⡕⢄⠂⠅⠌⡂⡂⠅⡡⠡⠡⠡⢡⢱⠱⡑⢕⢜⢌⢪⢂⢇⢆⡐⡐⢐⠨⢐⠨⢐⠐⠄⠅⠕⡰⡱⡑⡅⢅\r\n"
+//				+ "⡎⡎⡎⡎⡎⡆⢥⢠⠡⡄⡅⢆⢕⠱⡑⡕⡜⡜⡌⢆⢣⢪⠨⡊⡢⡢⡐⢄⢅⠤⡑⡌⢎⠢⡣⡣⡣⡑⢕⢕⢅⢇⢪⢢⠪⡪⡢⢢⠢⡨⡐⡌⡌⡌⢎⢪⠪⡪⡪⡂\r\n"
+//				+ "⢕⢕⢕⢕⢕⢕⢕⢕⢕⢌⢎⢪⢨⠪⡪⡪⡪⡪⡪⡪⡢⡱⡑⢌⢆⠪⡘⢔⢅⠣⡑⢜⢌⡪⢪⠪⡪⡊⢆⢕⢅⢣⠱⡘⡜⢔⢕⢅⠣⡊⢆⢕⠌⡎⡪⡢⡣⡣⡪⡪\r\n"
+//				+ "⢕⢕⡕⡕⡕⡕⡕⡕⢕⢕⢕⢱⠱⡑⡕⡕⡕⡜⡌⡎⡪⡢⡣⡑⢅⢣⠱⡑⡌⢎⠜⡔⡕⡕⢕⢕⢕⢜⠔⡕⡱⡑⢕⠕⡜⡜⡔⡕⡕⢕⢕⢌⢪⢊⢎⢪⠪⡪⡪⡪\r\n"
+//				+ "⡳⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡱⡑⡕⢕⢌⠪⡨⡢⡣⡣⡱⡑⡕⢜⢜⠜⡜⡌⡆⡣⡣⡱⡑⡕⡱⡑⢕⢜⢜⢜⢜⢜⢔⢕⠱⡑⡕⢕⢕⢕⢕⢕\r\n"
+//				+ "");
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+
+		System.out.println("세개의 컵 중 구슬이 들어있는 컵을 선택해주세요");
 		
 	}
-
 	// shuffle() - 컵 섞고 결과를 리턴
-	@Override
-	public int shuffle() {
-		// 결과를 0 ~ 2 (3개의 선택지) 사이에 저장 
-		int[] result = new int[3];
-		//int result = 0;
-		for(int i=0; i<3; i++) {
-			result[i] = (int) (Math.random() * 3);
-			for(int j=0; j< i; j++) {
-				i--;
-				break;
-			}
-		}
-
-		
-		// Logic 구현
-		//0: 정답, 1:꽝, 2:폭탄
-		
-		return result;
-	}
-	
-
-	// compareResult() 
-		// 사용자의 선택 번호를 입력 받아 승부 결과를 출력하고
-		// score 와 life 를 출력
-	@Override
-	public void compareResult() {
-		// 패배
-			p1.decreaseLife();
-			System.out.println("진행할 수 있는 하트가 없습니다");
-			
-		// 승리 
-			// suffle() 로 return 받은 숫자와 사용자의 입력 숫자가 같은 경우에만 승리 
-			p1.increaseLife(); p1.increaseScore();
-			System.out.println("점수 3점 획득! 축하합니다 승리입니다");
-			
-		// 폭탄 
-			p1.decreaseLife(); p1.decreaseScore();
-			System.out.println("폭탄입니다! 하트 1감소 점수 1감소");
-	}
-	
-	
-	// resume() - 계속 진행할지 묻기 
+	   public int[] shuffle() {
+	      int[] tmpArr = new int[3]; 
+	      int i = 0;
+	      
+	      // 섞기 
+	      do{
+	         int tmpNo = (int)(Math.random()*3) + 1;
+	         
+	         for(int tmp : tmpArr) {
+	            if(tmp != tmpNo) { tmpArr[i] = tmpNo; i++;} 
+	            
+	            else { continue; }
+	         }
+	      }while(i < 3);
+	      
+	      return tmpArr;
+	   }
+	   
+	   // compareResult() - 결과 비교 
+	   public void compareResult(int[] arr) {
+		  int bettingMoney = 0;
+		   
+	      System.out.println("3개 중 무엇을 고르시겠습니까?");
+	      System.out.println("왼쪽 : 0, 가운데 : 1, 오른쪽 : 2");
+	      System.out.print("입력 : ");
+	      int n = sc.nextInt();
+	      
+	      System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
+	      System.out.print("배팅금액 : ");
+	      bettingMoney = sc.nextInt();
+	      System.out.println();
+	      
+	      if(arr[n] == 1) {
+	    	  System.out.println("정답!");  p1.answer(bettingMoney);
+	    	  System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
+	      }
+	      if(arr[n] == 2) { 
+	    	  System.out.println("꽝");  p1.boom(bettingMoney);
+	    	  System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
+	      }
+	      if(arr[n] == 3) {
+	    	  System.out.println("폭탄");  p1.bomb(bettingMoney);
+	    	  System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
+	      }
+	   }    
+	   
 	public char resume() {
 		char c;
 		
-		System.out.println("의미를 계속 등록하시겠습니까? (Y/N)");
+		System.out.println("다시 배팅 하시겠습니까? (Y/N)");
 		System.out.print("입력 (Y/N) : ");
 		
 		c = Character.toUpperCase(sc.next().charAt(0));
