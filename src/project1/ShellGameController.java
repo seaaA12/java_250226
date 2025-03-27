@@ -5,7 +5,7 @@
  *		반복 (Main 에서 do-while문으로 처리), 승 패 결과 출력
  * 
  * */
-package project2;
+package project1;
 
 import java.util.Scanner;
 

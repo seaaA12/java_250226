@@ -5,14 +5,14 @@
  *		반복 (Main 에서 do-while문으로 처리), 승 패 결과 출력
  * 
  * */
-package project2;
+package project3;
 
 import java.util.Scanner;
 
 public class ShellGameController{
 	// 멤버 변수 초기화
 		// 플레이어 생성, 사용자
-	ShellGamePlayer p1 = new ShellGamePlayer(0,10000);
+	ShellGamePlayer p1 = new ShellGamePlayer(0,1000);
 	
 		// Scanner 설정
 	Scanner sc = new Scanner(System.in);
@@ -69,7 +69,7 @@ public class ShellGameController{
          int tmpNo = (int)(Math.random()*3) + 1;
          
          for(int tmp : tmpArr) {
-            if(tmp != tmpNo) { tmpArr[i] = tmpNo; i++;} 
+            if(tmp != tmpNo) { tmpArr[i] = tmpNo; i++; } 
             
             else { continue; }
          }
@@ -85,14 +85,15 @@ public class ShellGameController{
 	      System.out.print("입력 : ");
 	      int n = sc.nextInt();
 	      
-	      
 	      System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
 	      System.out.print("배팅금액 : ");
 	      
 	      int betMoney = sc.nextInt();
 	      
 	      if(p1.betting(betMoney)) {
-	    	  if(arr[n] == 1) {
+	      	if(n == 0) {System.out.println("잘못된 입력입니다..!"); return; }
+	      	
+	      	else if(arr[n] == 1) {
 		    	  System.out.println("\r\n"
 		    	  		+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⢀⢄⠀⠀⠀⠀⠀⢀⠔⠌⠂⡄⠀⠀⠀⠀⠀⠘⡞⠂⠀⠀⠀⠀⠀⠠\r\n"
 		    	  		+ "⠀⠀⠂⠠⠀⠀⠀⠀⠀⠀⢀⠔⡑⡀⠀⠀⠀⠨⡪⠀⠀⠀⠀⢀⠆⠈⠂⠔⠂⠀⠀⠀⠌⠊⠀⠀⠀⠀⢌⠂⠀⠀⠀\r\n"
@@ -117,7 +118,7 @@ public class ShellGameController{
 		    	  System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
 		    	  System.out.println("__________________________________________________");
 		      }
-		     if(arr[n] == 2) { 
+	      	else if(arr[n] == 2) { 
 		    	 System.out.println("\r\n"
 		    	 		+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⡱⡑⡄⡀⡀⡰⡨⡪⡠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
 		    	 		+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⡣⡲⡰⡠⡪⡪⡪⡪⡪⡪⡪⡪⡪⡪⡪⡢⡢⡒⡜⢜⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
@@ -146,7 +147,7 @@ public class ShellGameController{
 		    	 System.out.println("현재 소지금 : " + p1.getMoney()+ "/ 현재 점수 : " + p1.getScore());
 		    	 System.out.println("__________________________________________________");
 		     }
-		     if(arr[n] == 3) {
+	      	else if(arr[n] == 3) {
 		    	 System.out.println("\r\n"
 		    	 		+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠠⠀⠀⠀⠀⣀⣤⣤⣴⣰⠤⢤⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠀⠀\r\n"
 		    	 		+ "⠀⢀⣾⡟⠟⣶⡄⠀⣠⣶⠿⠿⣿⣷⢀⣀⣤⣾⡿⡿⢿⣿⣿⡇⡇⡇⡆⢀⢄⢆⢇⢇⢇⢇⢇⢆⠌⠀⠀⠀⠀⠀⠀\r\n"
@@ -188,4 +189,15 @@ public class ShellGameController{
 		
 		return c;
 	}
+	
+	// finCond() - 종료조건 설정 메서드 
+	public boolean finCond() {
+		boolean bool = true;
+		
+		if (p1.getMoney() == 0) { bool = false; }
+		else if(p1.getScore() >= 3) { bool = false; }
+		
+		
+		return bool;
+	} 
 }
